@@ -16,7 +16,7 @@ class Chocolate(enum.Enum):
 
 class Node:
     """
-    Each node of the tree represents the current state of each draw, which contains the chocolate just drawn,
+    Each node of the tree represents the state of each draw, which contains the chocolate just drawn,
     the accumulated probability of drawing this type of chocolate, as well as how many chocolates remain in the bag.
     A node can branch out two child nodes, with the left branch always drawing milk chocolate and the right
     branch dark, until the corresponding chocolate runs out.
@@ -48,7 +48,7 @@ class Node:
         new_node = Node(target, new_prob, new_bag)
 
         if self.drawn and target != self.drawn: # put the chocolate back to the bag if chocolate drawn is different than the previous draw
-            new_node = Node(None, new_prob, self.bag,)
+            new_node = Node(None, new_prob, self.bag)
 
         return new_node
 
@@ -65,13 +65,13 @@ class Node:
         return self.bag[Chocolate.MILK] == 0 and self.bag[Chocolate.DARK] == 0
 
     def gotcha(self):
-        """Check if the last chocolate drawn is milk chocolate"""
+        """Check if the chocolate just drawn is milk chocolate and the bag is empty"""
         return self._bag_empty() and self.drawn == Chocolate.MILK
 
 
 def tree(node: Node, all_prob: List[Fraction]):
     """Recursively build a probability tree.
-       Returns a list of the probability of nodes that have the last milk chocolate drawn.
+       Returns a list of the probability of nodes that have drawn the last milk chocolate.
        (The sum of these probabilities should be the final probability)
     """
     if node:
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     bag = {Chocolate.MILK: 2, Chocolate.DARK: 8}
     node = Node(None, Fraction(1, 1), bag)
     all_prob = tree(node, [])
-    probability = sum(all_prob)
-    print(f"Total number of possible paths: {len(all_prob)}. Probability is {probability}")
+    final_prob = sum(all_prob)
+    print(f"Total number of possible paths: {len(all_prob)}. Final probability is {final_prob}")
     print(all_prob)
 
 
