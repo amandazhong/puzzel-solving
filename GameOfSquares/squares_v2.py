@@ -1,7 +1,5 @@
 """Solution to the Square Game puzzle.
 
-Ref: https://dat.jeppesen.com/confluence/pages/viewpage.action?pageId=115212982
-
 Usage: update the ITERATION and run `python squares_v2.py`,
 the INIT_SHADE can be modified to have a different start point as well.
 

@@ -1,5 +1,5 @@
 """
-Solution to the puzzle: https://dat.jeppesen.com/confluence/pages/viewpage.action?pageId=115216462
+Solution to the puzzle.
 A tree will be built to represent each draw and its probability.
 """
 
