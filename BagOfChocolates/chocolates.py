@@ -12,6 +12,7 @@ class Chocolate(enum.Enum):
     """ Enum class representing types of chocolates"""
     MILK = "milk chocolate"
     DARK = "dark chocolate"
+    WHITE = "white cholocate"
 
 
 class Node:
@@ -31,7 +32,7 @@ class Node:
         self.prob = prob
         self.bag = bag
 
-    def draw(self, target: Chocolate):
+    def _draw(self, target: Chocolate):
         """
         Draw a target chocolate type from the bag, return a new Node.
         """
@@ -54,15 +55,19 @@ class Node:
 
     def left(self):
         """Draw a milk chocolate."""
-        return self.draw(Chocolate.MILK)
+        return self._draw(Chocolate.MILK)
 
     def right(self):
         """Draw a dark chocolate."""
-        return self.draw(Chocolate.DARK)
+        return self._draw(Chocolate.DARK)
+
+    def middle(self):
+        """Draw a whilte chocolate."""
+        return self._draw(Chocolate.WHITE)
 
     def _bag_empty(self):
         """Check if the bag is empty."""
-        return self.bag[Chocolate.MILK] == 0 and self.bag[Chocolate.DARK] == 0
+        return all([a == 0 for a in self.bag.values()])
 
     def gotcha(self):
         """Check if the chocolate just drawn is milk chocolate and the bag is empty"""
@@ -80,19 +85,15 @@ def tree(node: Node, all_prob: List[Fraction]):
         else:
             tree(node.left(), all_prob)
             tree(node.right(), all_prob)
+            tree(node.middle(), all_prob)
     return all_prob
 
 
 if __name__ == "__main__":
-    bag = {Chocolate.MILK: 2, Chocolate.DARK: 8}
+    bag = {Chocolate.MILK: 2, Chocolate.DARK: 0, Chocolate.WHITE: 8}
     node = Node(None, Fraction(1, 1), bag)
     all_prob = tree(node, [])
     final_prob = sum(all_prob)
     print(f"Total number of possible paths: {len(all_prob)}. Final probability is {final_prob}")
-    print(all_prob)
-
-
-
-
-
+    #print(all_prob)
 
